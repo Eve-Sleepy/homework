@@ -24,7 +24,7 @@ if [[ "${SPE_FLAG}" = 'true' ]]
 then
   LEN=$[${LEN}-${SPE_CHAR}]
   PWD=$(date +%s%N | sha256sum | head -c${LEN} )
-  SPECIAL_CHAR=$(echo '!@#$%^&*()_+=' | fold -w2 | shuf | head -c2 )
+  SPECIAL_CHAR=$(echo '!@#$%^&*()_+=' | fold -w${SPE_CHAR} | shuf | head -c${SPE_CHAR} )
   PWD=$(echo "${PWD}${SPECIAL_CHAR}")
 else
   PWD=$(date +%s%N | sha256sum | head -c${LEN} )
