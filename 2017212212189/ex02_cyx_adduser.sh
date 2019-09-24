@@ -8,20 +8,11 @@ useradd -c "${COMMENT}" -m ${USER_NAME}
 
 PWD=$(date +%s%N | sha256sum | head -c6 )
 
-for((i=6;i<=7;i+=1))
-do
-SPECIAL_CHAR=$(echo '!@#$%^&*()_+=' | fold -w1 | shuf | head -c1 )
+SPECIAL_CHAR=$(echo '!@#$%^&*()_+=' | fold -w2 | shuf | head -c2)
 
-#产生随机的切片位置
-rnd=$((${RANDOM}%${i}))
-
-#将字符串随机切片分成两个子串
-sub1=$(echo ${PWD:0:$rnd})
-sub2=$(echo ${PWD:$rnd})
-
-PWD=$(echo "${sub1}${SPECIAL_CHAR}${sub2}" )
-done
+PWD=$(echo "${PWD}${SPECIAL_CHAR}" )
+PWD=$(echo ${PWD} | fold -w1 |shuf|tr -d '\n')
 
 echo ${USER_NAME}:${PWD}|chpasswd
 
-echo "PWD:${PWD}"
+echo "USER_NAME:${USER_NAME} PWD:${PWD}"
